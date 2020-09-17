@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marcadores</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="css/geoJSON.css">
+</head>
+<body>
+    
+    <nav class="navbar navbar-dark bg-dark sticky-top">
+        <a class="navbar-brand" href="../../index.html">
+            <img class="img-fluid mx-sm-3" style="max-width: 40px;" src="https://freepngimg.com/thumb/map/64260-map-pin-vector-world-push-logo-drawing.png" alt="">
+            Sistemas Georeferenciados
+        </a>        
+    </nav>
+
+    <div class="container-fluid">
+        <div class="container bg-white rounded shadow-lg my-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row mx-2 mt-3">
+                        <div class="col-12 px-5 pt-5">
+                            <h1 class="text-center">
+                                Choropleth
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center p-4">
+                            <div class="rounded" id="map"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/c7b62fdfb0.js" crossorigin="anonymous"></script>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+    <script src="js/geoDATA.js"></script>
+    <script src="js/geoJSON.js"></script>
+</body>
+</html>
