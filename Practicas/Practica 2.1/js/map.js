@@ -17,6 +17,12 @@ var newIcon = L.icon({
     iconAnchor: [30, 60],
     popupAnchor: [-3, -76]
 });
+var inputIcon = L.icon({
+    iconUrl: 'input.png',
+    iconSize: [60, 60],
+    iconAnchor: [30, 60],
+    popupAnchor: [-3, -76]
+});
 var currentIcon = L.icon({
     iconUrl: 'red_dot.gif',
     iconSize: [60, 60],
@@ -24,30 +30,60 @@ var currentIcon = L.icon({
     popupAnchor: [-3, -76]
 });
 
-navigator.geolocation.watchPosition(posicion => {
-    var pos = {
-        lat: posicion.coords.latitude,
-        lng: posicion.coords.longitude
-    }
+getLocations();
 
-    MapView.flyTo(pos, 16)
-    var marker = L.marker(pos, {icon:currentIcon}).addTo(MapView);
-    getLocations();
-
-    saveLocation(pos);
-}, 
-err => {
-    console.warn('ERROR(' + err.code + '): ' + err.message);
-},
+if(navigator.geolocation){
+    navigator.geolocation.watchPosition(posicion => {
+        var pos = {
+            lat: posicion.coords.latitude,
+            lng: posicion.coords.longitude
+        }
+    
+        MapView.flyTo(pos, 16)
+        var marker = L.marker(pos, {icon:currentIcon}).addTo(MapView);
+    
+        saveLocation(pos, "getLocation");
+    }, 
+    err => {
+        Swal.fire({
+            title: 'No se pudo obtener tu ubicación',
+            text: "Escribe tus coordenadas en el siguiente fomrato: lat,lng",
+            input: 'text',
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            console.log(result)
+            var latlngStr = result.value.split(",", 2);
+            var lat = parseFloat(latlngStr[0]);
+            var lng = parseFloat(latlngStr[1]);
+            MapView.flyTo([lat, lng], 16)
+            var marker = L.marker([lat, lng], {icon:currentIcon}).addTo(MapView);
+            saveLocation({lat: lat, lng: lng}, "input");
+        });
+        console.warn('ERROR(' + err.code + '): ' + err.message);
+    },
+    {
+        timeout: 3000,
+        maximumAge: 0
+    });
+}
+else
 {
-    timeout: 3000,
-    maximumAge: 0
-});
+    Swal.fire({
+        title: 'Error!',
+        text: 'Do you want to continue',
+        icon: 'error',
+        confirmButtonText: 'Cool'
+    })
+}
 
-function saveLocation(location){
+function saveLocation(location, type){
     db.collection("Localizaciones").add({
         lat: location.lat,
-        lng: location.lng,        
+        lng: location.lng,
+        type: type     
     })
     .then(function(docRef) {
         console.log("Document written with ID: ", docRef.id);
@@ -64,7 +100,15 @@ function getLocations(){
                 console.log(change.doc.data())
             if(change.type == "added")
             {
-                var marker = L.marker(change.doc.data(), {icon:newIcon}).addTo(MapView);
+                if(change.doc.data().type == "input")
+                {
+                    var marker = L.marker([change.doc.data().lat, change.doc.data().lng], {icon:inputIcon}).addTo(MapView);
+                }
+                else
+                {
+                    var marker = L.marker([change.doc.data().lat, change.doc.data().lng], {icon:newIcon}).addTo(MapView);
+                }
+                
             }
         });
     });
