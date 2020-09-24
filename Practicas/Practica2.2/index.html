@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ejemplo OSM</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+
+</head>
+
+<body>
+
+    <div class="row">
+
+        <div class="col-12">
+            <h1 class="text-center" style="margin-top: 10px;">Práctica 2.2</h1>
+        </div>
+
+        <div
+            style="border: 5px solid; border-color: black; border-radius: 10px; margin-top: 10px; margin-left: auto; margin-right: auto; width: 70vw;">
+            <div id="MapView" style="height: 70vh;"></div>
+
+            <div class="text-center m-3">
+                <div class="form-group" style="width: 20vh; margin-right: auto; margin-left: auto;">
+                    <label for="selectTiles">Cambio de Tiles</label>
+                    <select class="form-control" id="selectTiles" onchange="cambioDeTile()">
+                      <option value="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png">Standard</option>
+                      <option value="https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png">Wikipedia Maps</option>
+                      <option value="http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png">Humanitarian</option>
+                      <option value="http://tile.memomaps.de/tilegen/{z}/{x}/{y}.png">Mapa de transporte</option>
+                      <option value="https://cdn.lima-labs.com/{z}/{x}/{y}.png?free">Lima labs</option>
+                    </select>
+                  </div>
+                  <button class="btn btn-info" onclick="reiniciar()">Reiniciar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+    <script src="map.js"></script>
+
+</body>
+
+</html>
