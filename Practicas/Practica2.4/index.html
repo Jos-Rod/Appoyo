@@ -19,9 +19,9 @@
     </nav>
 
 	<div class="d-flex justify-content-center align-items-center container mt-4">
-		<div class="card p-5 shadow" style="height:80vh; width:80vw;">
+		<div class="card p-5 shadow" style="width:80vw;">
 			<h4 class="text-center">Mapa con Capas</h4>
-            <iframe id="mapa" style="height:100%; width:100%;" src="http://localhost:8000/maps/20/embed"></iframe>
+            <iframe id="mapa" style="height:400px; width:100%;" src="http://localhost:8000/maps/20/embed"></iframe>
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button id="1" type="button" class="btn btn-secondary">Hipsográfico</button>
                 <button id="2" type="button" class="btn btn-secondary">Volcanes</button>
@@ -29,9 +29,11 @@
                 <button id="4" type="button" class="btn btn-secondary">Erosión Costera</button>
                 <button id="5" type="button" class="btn btn-secondary">Movimiento en Masa</button>
             </div>
-            <div>
-                <h1 id="Titulo">Hipsográfico</h1>
-                <p id="Descripcion">Muestra la elevación de la superficie del país.</p>
+            <div id="items" class="row mt-5">
+                <div class="col-4">
+                    <h1 id="Titulo">Hipsográfico</h1>
+                    <p id="Descripcion">Muestra la elevación de la superficie del país.</p>
+                </div>                
             </div>
 		</div>
 	</div>

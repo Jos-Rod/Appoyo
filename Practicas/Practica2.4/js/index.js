@@ -1,5 +1,4 @@
-var title = document.getElementById("Titulo");
-var description = document.getElementById("Descripcion");
+var items = document.getElementById("items");
 var map = document.getElementById("mapa");
 
 var info = [
@@ -25,15 +24,21 @@ var info = [
     },
     {
         title: "Movimiento en Masa",
-        description: "Se muestra el respectivo movimiento de masa que ha habido en el país.",
+        description: "Se muestra el respectivo movimiento me masa que ha habido en el país.",
         url: "http://localhost:8000/maps/25/embed"
     }
 ];
 
 document.querySelectorAll(".btn").forEach(element => {
     element.addEventListener("click", function() {
-        title.innerHTML = info[element.id - 1].title;
-        description.innerHTML = info[element.id - 1].description;
+        items.innerHTML = "";
+        for(var i = 0; i < element.id; i++){
+            items.innerHTML += `
+            <div class="col-4">
+                <h1>${info[i].title}</h1>
+                <p>${info[i].description}</p>
+            </div>` 
+        }
         map.src = info[element.id - 1].url;
     });
 });
