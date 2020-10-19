@@ -5,7 +5,7 @@ var map = document.getElementById("mapa");
 var info = [
     {
         title: "Hipsográfico",
-        description: "1",
+        description: "Muestra la elevación de la superficie del país.",
         url: "http://localhost:8000/maps/20/embed"
     },
     {
@@ -15,17 +15,17 @@ var info = [
     },
     {
         title: "Magnitud Sísmica",
-        description: "3",
+        description: "Se muestran las áreas con la respectiva actividad sísmica en México.",
         url: "http://localhost:8000/maps/21/embed"
     },
     {
         title: "Erosión Costera",
-        description: "4",
+        description: "Se muestra la erosión se que ha tenido en la zona costera.",
         url: "http://localhost:8000/maps/24/embed"
     },
     {
         title: "Movimiento en Masa",
-        description: "5",
+        description: "Se muestra el respectivo movimiento de masa que ha habido en el país.",
         url: "http://localhost:8000/maps/25/embed"
     }
 ];
