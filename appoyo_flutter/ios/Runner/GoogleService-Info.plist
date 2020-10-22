@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>249840422851-u4ucb7iv0f50dfar6b8ik1djulav2rqv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.249840422851-u4ucb7iv0f50dfar6b8ik1djulav2rqv</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDRxc_Sslff-sR-OPyrp4A7ixx4qW1VxJU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>249840422851</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.appoyo.cpr</string>
+	<key>PROJECT_ID</key>
+	<string>appoyo-76e2c</string>
+	<key>STORAGE_BUCKET</key>
+	<string>appoyo-76e2c.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:249840422851:ios:2f76b0b73ae56e40c9f776</string>
+	<key>DATABASE_URL</key>
+	<string>https://appoyo-76e2c.firebaseio.com</string>
+</dict>
+</plist>

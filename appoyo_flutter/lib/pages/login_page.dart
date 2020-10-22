@@ -1,4 +1,6 @@
+import 'package:appoyo_flutter/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -22,7 +24,7 @@ class LoginPage extends StatelessWidget {
             Column(
               children: <Widget>[
                 loginFields(),
-                Expanded(child: Container()),           
+                Expanded(child: Container()),
                 loginButtons()
               ],
             ),
@@ -32,7 +34,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget loginFields(){
+  Widget loginFields(){ 
     return Padding(
       padding: EdgeInsets.only(left: 60.0, right: 60.0, top: 60.0),
       child: Column(
@@ -99,7 +101,7 @@ class LoginPage extends StatelessWidget {
           child: RaisedButton(
             color: Color(0xFFD500).withAlpha(255),
             child: Icon(Icons.arrow_forward, color: Colors.white, size: 60,),
-            onPressed: () {},
+            onPressed: () => Get.off(HomePage()),
           ),
         )
       ],

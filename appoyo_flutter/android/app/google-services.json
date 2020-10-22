@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "249840422851",
+    "firebase_url": "https://appoyo-76e2c.firebaseio.com",
+    "project_id": "appoyo-76e2c",
+    "storage_bucket": "appoyo-76e2c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:249840422851:android:22c895980d42245ac9f776",
+        "android_client_info": {
+          "package_name": "com.appoyo.cpr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "249840422851-k4dvjr491llh9n31j3n892thk05ie4d4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1ZsHOSViltrF9cENpepkpDrzNh83G274"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "249840422851-k4dvjr491llh9n31j3n892thk05ie4d4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "249840422851-u4ucb7iv0f50dfar6b8ik1djulav2rqv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.appoyo.cpr"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
