@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:appoyo_flutter/widgets/map_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class RequestPage extends StatelessWidget {
@@ -7,6 +9,9 @@ class RequestPage extends StatelessWidget {
   TextEditingController _txtProblemaTitulo = new TextEditingController();
   TextEditingController _txtProblemaDesc = new TextEditingController();
   TextEditingController _txtPago = new TextEditingController();
+
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  FirebaseFirestore store = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +48,7 @@ class RequestPage extends StatelessWidget {
         child: Icon(Icons.check, color: Colors.white, size: 35),
         elevation: 20,
         onPressed: () => {
-          
+          _postRequest(_txtProblemaTitulo.text, _txtProblemaDesc.text, int.parse(_txtPago.text))
         },
       ),
     );
@@ -116,4 +121,21 @@ class RequestPage extends StatelessWidget {
       height: 150
     );
   }
+
+  _postRequest(String titulo, String descripcion, num pago) async {
+    print(titulo);
+    print(descripcion);
+    print(pago);
+    await store.collection('requestappyos').add({
+      'titulo': titulo,
+      'descripcion': descripcion,
+      'pagoSugerido': pago,
+      'fechaRequest': new DateTime.now().toString(),
+      'lat': 21.155492, 
+      'lon': -101.709941
+    }).then((value) => print("Request de appoyo publicado")).catchError((error) => {
+      print("Jodido, algo esta mal: $error")
+    });
+  }
+
 }
