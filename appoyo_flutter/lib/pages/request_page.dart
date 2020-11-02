@@ -4,6 +4,12 @@ import 'package:appoyo_flutter/widgets/map_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map/plugin_api.dart';
+import 'package:latlong/latlong.dart';
+
+import 'package:geolocator/geolocator.dart';
+
 class RequestPage extends StatelessWidget {
 
   TextEditingController _txtProblemaTitulo = new TextEditingController();
@@ -12,6 +18,8 @@ class RequestPage extends StatelessWidget {
 
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   FirebaseFirestore store = FirebaseFirestore.instance;
+
+  LatLng pos;
 
   @override
   Widget build(BuildContext context) {
@@ -126,16 +134,24 @@ class RequestPage extends StatelessWidget {
     print(titulo);
     print(descripcion);
     print(pago);
-    await store.collection('requestappyos').add({
+
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    await store.collection('requestappoyos').add({
       'titulo': titulo,
       'descripcion': descripcion,
       'pagoSugerido': pago,
       'fechaRequest': new DateTime.now().toString(),
-      'lat': 21.155492, 
-      'lon': -101.709941
-    }).then((value) => print("Request de appoyo publicado")).catchError((error) => {
+      'lat': position.latitude, 
+      'lon': position.longitude
+    })
+    .then((value) {
+      Get.snackbar("¡Listo!", "Se publicó tu solicitud");
+      Get.back();
+      print("Request de appoyo publicado");
+    })
+    .catchError((error) => {
       print("Jodido, algo esta mal: $error")
     });
   }
-
 }
