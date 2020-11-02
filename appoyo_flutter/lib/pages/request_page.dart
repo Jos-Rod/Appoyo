@@ -1,11 +1,10 @@
+import 'package:appoyo_flutter/controllers/map_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:appoyo_flutter/widgets/map_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
-import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
 
 import 'package:geolocator/geolocator.dart';
@@ -23,41 +22,44 @@ class RequestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text("Appoyo", style: TextStyle(color: Colors.white)),
-        leading: IconButton( 
-          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Get.back(),
-        )
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text("Pedir Appoyo", textAlign: TextAlign.center, style: Theme.of(context).textTheme.headline5),
-              SizedBox(height: 30),
-              _titleInput(),
-              SizedBox(height: 20),
-              _detailInput(),
-              SizedBox(height: 20),
-              _paymentInput(context),
-              SizedBox(height: 20),
-              _mapInput()
-            ],
+    return GetBuilder(
+      init: MapInputController(),
+      builder:(_) => Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text("Appoyo", style: TextStyle(color: Colors.white)),
+          leading: IconButton( 
+            icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Get.back(),
+          )
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 40),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text("Pedir Appoyo", textAlign: TextAlign.center, style: Theme.of(context).textTheme.headline5),
+                SizedBox(height: 30),
+                _titleInput(),
+                SizedBox(height: 20),
+                _detailInput(),
+                SizedBox(height: 20),
+                _paymentInput(context),
+                SizedBox(height: 20),
+                _mapInput(_)
+              ],
+            ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.check, color: Colors.white, size: 35),
-        elevation: 20,
-        onPressed: () => {
-          _postRequest(_txtProblemaTitulo.text, _txtProblemaDesc.text, int.parse(_txtPago.text))
-        },
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.check, color: Colors.white, size: 35),
+          elevation: 20,
+          onPressed: () => {
+            _postRequest(_txtProblemaTitulo.text, _txtProblemaDesc.text, int.parse(_txtPago.text), _.position)
+          },
+        ),
       ),
     );
   }
@@ -120,22 +122,21 @@ class RequestPage extends StatelessWidget {
     );
   }
 
-  Widget _mapInput(){
+  Widget _mapInput(MapInputController map){
     return Container(
       child: ClipRRect(
-        child: MapWidget(),
+        child: MapWidget(mapInputController: map),
         borderRadius: BorderRadius.circular(45),
       ),
       height: 150
     );
   }
 
-  _postRequest(String titulo, String descripcion, num pago) async {
+  _postRequest(String titulo, String descripcion, num pago, LatLng position) async {
     print(titulo);
     print(descripcion);
     print(pago);
-
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print("${position.latitude}, ${position.longitude}");
 
     await store.collection('requestappoyos').add({
       'titulo': titulo,
