@@ -14,12 +14,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-  FirebaseFirestore store = FirebaseFirestore.instance;
-
   @override
   Widget build(BuildContext context) {
+    
+    FirebaseFirestore store = FirebaseFirestore.instance;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
