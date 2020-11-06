@@ -62,7 +62,6 @@ class _HomePageState extends State<HomePage> {
                             ),
                             title: Text(snapshot.data.documents[index]['titulo']),
                             subtitle: Text('${snapshot.data.documents[index]['lat']}, ${snapshot.data.documents[index]['lon']} \n ${snapshot.data.documents[index]['fechaRequest']}'),
-                            
                           ),
                         ),
                       );
