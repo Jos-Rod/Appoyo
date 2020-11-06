@@ -12,17 +12,33 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-  
+
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: createMaterialColor(Color(0xFFD500).withAlpha(255)),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: LoginPage(),
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) 
+      {
+        if (snapshot.hasError) {
+          return Text('Algo salió mal');
+        }
+
+        // Once complete, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              primarySwatch: createMaterialColor(Color(0xFFD500).withAlpha(255)),
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            home: LoginPage(),
+          );
+        }
+
+        // Otherwise, show something whilst waiting for initialization to complete
+        return LinearProgressIndicator();
+      } 
     );
   }
 
