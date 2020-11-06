@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:appoyo_flutter/controllers/map_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +20,18 @@ class RequestPage extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   FirebaseFirestore store = FirebaseFirestore.instance;
 
+  List<dynamic> arreglo = [];
+  bool hayDatos = false;
+
   LatLng pos;
 
   @override
   Widget build(BuildContext context) {
+
+    final argAux = Get.arguments;
+    hayDatos = argAux != null;
+    arreglo = hayDatos ? argAux : [];    
+
     return GetBuilder(
       init: MapInputController(),
       builder:(_) => Scaffold(
@@ -74,8 +84,9 @@ class RequestPage extends StatelessWidget {
           ),
         ),
         contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        hintText: "¿Cuál es tu problema?"
-      )
+        hintText: hayDatos ? arreglo[0] : "¿Cuál es tu problema?",
+      ),
+      enabled: !hayDatos,
     );
   }
 
@@ -90,8 +101,9 @@ class RequestPage extends StatelessWidget {
           ),
         ),
         contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        hintText: "Describe tu problema..."
-      )
+        hintText:  hayDatos ? arreglo[1] :"Describe tu problema..."
+      ),
+      enabled: !hayDatos,
     );
   }
 
@@ -114,8 +126,9 @@ class RequestPage extends StatelessWidget {
                 ),
               ),
               contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              hintText: "0.00"
-            )
+              hintText: hayDatos ? arreglo[2].toString() : "0.00"
+            ),
+            enabled: !hayDatos
           )
         )        
       ],

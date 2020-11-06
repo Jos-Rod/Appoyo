@@ -61,12 +61,21 @@ class _HomePageState extends State<HomePage> {
                             ),
                             title: Text(snapshot.data.documents[index]['titulo']),
                             subtitle: Text('${snapshot.data.documents[index]['lat']}, ${snapshot.data.documents[index]['lon']} \n ${snapshot.data.documents[index]['fechaRequest']}'),
+                            onTap: () {
+                              final titulo = snapshot.data.documents[index]['titulo'];
+                              final descripcion = snapshot.data.documents[index]['descripcion'];
+                              final pagoSugerido = snapshot.data.documents[index]['pagoSugerido'];
+                              final lon = snapshot.data.documents[index]['lon'];
+                              final lat = snapshot.data.documents[index]['lat'];
+                              final fechaRequest = snapshot.data.documents[index]['fechaRequest'];
+                              Get.to(RequestPage(), arguments: [ titulo, descripcion, pagoSugerido, lon, lat, fechaRequest ]);
+                            },
                           ),
                         ),
                       );
                     }          
                   );
-                }
+                },
               ),
             )
           ]
