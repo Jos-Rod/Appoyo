@@ -147,7 +147,6 @@ class RequestPage extends StatelessWidget {
       'lon': position.longitude
     })
     .then((value) {
-      Get.snackbar("¡Listo!", "Se publicó tu solicitud");
       Get.back();
       print("Request de appoyo publicado");
     })

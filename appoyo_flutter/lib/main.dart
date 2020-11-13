@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) 
       {
         if (snapshot.hasError) {
-          return Text('Algo salió mal');
+          return MaterialApp(home: Text('Algo salió mal'));
         }
 
         // Once complete, show your application
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
-        return LinearProgressIndicator();
+        return MaterialApp(home: LinearProgressIndicator());
       } 
     );
   }

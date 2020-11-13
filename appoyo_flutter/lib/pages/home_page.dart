@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:appoyo_flutter/controllers/map_controller.dart';
 import 'package:appoyo_flutter/pages/request_page.dart';
@@ -14,6 +15,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  
+
   @override
   Widget build(BuildContext context) {
     
@@ -26,7 +29,8 @@ class _HomePageState extends State<HomePage> {
       ),
       body: GetBuilder(
         init: MapInputController(),
-        builder: (_) => Column(
+        builder: (_) => 
+        Column(
           children: [
             Container(
               height: 200,
@@ -47,7 +51,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               child: StreamBuilder(
-                stream: store.collection('requestappoyos').snapshots(),
+                stream: store.collection('requestappoyos').orderBy("fechaRequest", descending: true).snapshots(),
                 builder: (context, snapshot) {
                   return ListView.builder(
                     itemCount: snapshot.data.documents.length,
@@ -57,10 +61,11 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.symmetric(vertical: 5.0),
                           child: ListTile(
                             leading: CircleAvatar(
-                              radius: 25,
+                              radius: 25,                              
+                              backgroundImage: NetworkImage("https://scontent.fcyw1-1.fna.fbcdn.net/v/t1.0-9/89015809_495765844423812_7664341119345360896_o.jpg?_nc_cat=102&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeEE7y78I8tGmEr6189SM9Ao8tHHqkqD-xjy0ceqSoP7GM8OGgIpOGNPMhfeg_rW4zCipoIayiRfs0z_RxZsuz6R&_nc_ohc=xHiRPhNGXJcAX9nmJrc&_nc_ht=scontent.fcyw1-1.fna&oh=78c1695c58b76c8f4942f96a2af93bc3&oe=5FD32A4D"),
                             ),
                             title: Text(snapshot.data.documents[index]['titulo']),
-                            subtitle: Text('${snapshot.data.documents[index]['lat']}, ${snapshot.data.documents[index]['lon']} \n ${snapshot.data.documents[index]['fechaRequest']}'),
+                            subtitle: Text('${_calculateDistance(snapshot.data.documents[index]['lat'], snapshot.data.documents[index]['lon'], _.position.latitude, _.position.longitude)} km \n ${_getTimePassed(snapshot.data.documents[index]['fechaRequest'])}'),
                           ),
                         ),
                       );
@@ -78,5 +83,37 @@ class _HomePageState extends State<HomePage> {
         onPressed: () => Get.to(RequestPage()),
       ),
     );
+  }
+
+  String _getTimePassed(String date){
+    DateTime requestDate = DateTime.parse(date);
+    Duration difference = DateTime.now().difference(requestDate);
+
+    String texto = "";
+
+    if(difference.inMinutes < 60){
+      texto = "Hace ${difference.inMinutes} minutos";
+    }
+    else if(difference.inHours < 24){
+      texto = "Hace ${difference.inHours} horas";
+    }
+    else if(difference.inDays < 30){
+      texto = "Hace ${difference.inDays} días";
+    }
+    else
+    {
+      texto = "Hace ${difference.inDays / 30} meses";
+    }
+
+    return texto;
+  }
+
+  int _calculateDistance(lat1, lon1, lat2, lon2){
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 - c((lat2 - lat1) * p)/2 + 
+          c(lat1 * p) * c(lat2 * p) * 
+          (1 - c((lon2 - lon1) * p))/2;
+    return (12742 * asin(sqrt(a))).round();
   }
 }
