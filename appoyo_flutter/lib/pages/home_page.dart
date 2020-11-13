@@ -53,6 +53,14 @@ class _HomePageState extends State<HomePage> {
               child: StreamBuilder(
                 stream: store.collection('requestappoyos').orderBy("fechaRequest", descending: true).snapshots(),
                 builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Algo salió mal'));
+                  }
+
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                 
                   return ListView.builder(
                     itemCount: snapshot.data.documents.length,
                     itemBuilder: (BuildContext context, int index){
@@ -78,8 +86,8 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       );
-                    }          
-                  );
+                    }         
+                  );                  
                 },
               ),
             )
