@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:appoyo_flutter/controllers/map_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -23,7 +25,12 @@ class _MapWidgetState extends State<MapWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _getCurrentLocation(widget.mapInputController);
+    try{
+      _getCurrentLocation(widget.mapInputController);
+    }
+    catch(err){
+      inspect(err);
+    }
 
     return new FlutterMap(
       mapController: controller,
@@ -56,9 +63,11 @@ class _MapWidgetState extends State<MapWidget> {
   void _getCurrentLocation(MapInputController mapInputController) async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     pos = LatLng(position.latitude, position.longitude);
-    setState(() {
-      controller.move(pos, 13);
-      mapInputController.positionChanged(pos);
-    });
+    if (this.mounted) {
+      setState(() {
+        controller.move(pos, 13);
+        mapInputController.positionChanged(pos);
+      });
+    }
   }
 }
