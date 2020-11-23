@@ -6,12 +6,14 @@ import 'package:appoyo_flutter/pages/chat_page.dart';
 import 'package:appoyo_flutter/pages/request_page.dart';
 import 'package:appoyo_flutter/widgets/map_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map/flutter_map.dart' hide Coords;
 
 import 'package:latlong/latlong.dart';
 import 'package:get/get.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:map_launcher/map_launcher.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -30,6 +32,16 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text("Appoyo", style: TextStyle(color: Colors.white)),
+        actions: [
+          FutureBuilder(
+            future: getUserImage(),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot){
+              return CircleAvatar(
+                backgroundImage: NetworkImage(snapshot.data)
+              );
+            }
+          )
+        ],
       ),
       body: GetBuilder(
         init: MapInputController(),
@@ -72,9 +84,14 @@ class _HomePageState extends State<HomePage> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5.0),
                           child: ListTile(
-                            leading: CircleAvatar(
-                              radius: 25,                              
-                              backgroundImage: NetworkImage("https://scontent.fcyw1-1.fna.fbcdn.net/v/t1.0-9/89015809_495765844423812_7664341119345360896_o.jpg?_nc_cat=102&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeEE7y78I8tGmEr6189SM9Ao8tHHqkqD-xjy0ceqSoP7GM8OGgIpOGNPMhfeg_rW4zCipoIayiRfs0z_RxZsuz6R&_nc_ohc=xHiRPhNGXJcAX9nmJrc&_nc_ht=scontent.fcyw1-1.fna&oh=78c1695c58b76c8f4942f96a2af93bc3&oe=5FD32A4D"),
+                            leading: FutureBuilder(
+                              future: getUserImage(user: snapshot.data.documents[index]['user']),
+                              builder: (BuildContext context, AsyncSnapshot<String> snap){
+                                return CircleAvatar(
+                                  radius: 25,                              
+                                  backgroundImage: NetworkImage(snap.data),
+                                );
+                              }
                             ),
                             title: Text(snapshot.data.documents[index]['titulo']),
                             subtitle: Text('${_calculateDistance(snapshot.data.documents[index]['lat'], snapshot.data.documents[index]['lon'], _.position?.latitude ?? 0, _.position?.longitude ?? 0)} km \n ${_getTimePassed(snapshot.data.documents[index]['fechaRequest'])}'),
@@ -167,6 +184,16 @@ class _HomePageState extends State<HomePage> {
                                                   Expanded(
                                                     child: ButtonTheme(
                                                       height: 50,
+                                                      buttonColor: Get.theme.primaryColorDark,
+                                                      child: RaisedButton(
+                                                        child: Text("Abrir Mapa", style: TextStyle(color: Colors.white)),
+                                                        onPressed: () => openMap(snapshot.data.documents[index]['lat'], snapshot.data.documents[index]['lon'])
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: ButtonTheme(
+                                                      height: 50,
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius: BorderRadius.only(bottomRight: Radius.circular(22)),
                                                       ),
@@ -239,5 +266,28 @@ class _HomePageState extends State<HomePage> {
           c(lat1 * p) * c(lat2 * p) * 
           (1 - c((lon2 - lon1) * p))/2;
     return (12742 * asin(sqrt(a))).round();
+  }
+
+  Future<String> getUserImage({String user}) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    var email = user != null ? user : auth.currentUser.email;
+
+    String downloadURL = await firebase_storage.FirebaseStorage.instance
+      .ref('users/${email}.png')
+      .getDownloadURL();
+
+    return downloadURL;
+  }
+
+  void openMap(double lat, double lon) async {
+
+    final availableMaps = await MapLauncher.installedMaps;
+    print(availableMaps); // [AvailableMap { mapName: Google Maps, mapType: google }, ...]
+
+    await availableMaps.first.showMarker(
+      coords: Coords(lat, lon),
+      title: "Appoyo",
+    );
   }
 }

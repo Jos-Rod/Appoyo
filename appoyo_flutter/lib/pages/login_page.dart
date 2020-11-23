@@ -1,10 +1,20 @@
 import 'package:appoyo_flutter/pages/home_page.dart';
+import 'package:appoyo_flutter/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 class LoginPage extends StatelessWidget {
+  
+  TextEditingController txtEmail = TextEditingController();
+  TextEditingController txtPassword = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+
+    FirebaseAuth auth = FirebaseAuth.instance;
+
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
@@ -57,6 +67,7 @@ class LoginPage extends StatelessWidget {
               fillColor: Colors.white,
               hintText: "Correo"
             ),
+            controller: txtEmail,
           ),
           SizedBox(height: 35.0),
           TextField(
@@ -69,6 +80,7 @@ class LoginPage extends StatelessWidget {
               fillColor: Colors.white,
               hintText: "Contraseña"
             ),
+            controller: txtPassword,
           )
         ],
       ),
@@ -88,7 +100,7 @@ class LoginPage extends StatelessWidget {
             child: RaisedButton(
               color: Colors.white,
               child: Text("Regsitrate", style: TextStyle(fontSize: 18)),
-              onPressed: () {},
+              onPressed: () => Get.to(SignUpPage()),
             ),
           ),
         ),
@@ -101,7 +113,7 @@ class LoginPage extends StatelessWidget {
           child: RaisedButton(
             color: Color(0xFFD500).withAlpha(255),
             child: Icon(Icons.arrow_forward, color: Colors.white, size: 60,),
-            onPressed: () => Get.off(HomePage()),
+            onPressed: login,
           ),
         )
       ],
@@ -126,5 +138,22 @@ class LoginPage extends StatelessWidget {
         )
       ],
     );
+  }
+
+  login() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: txtEmail.text,
+        password: txtPassword.text
+      );
+
+      Get.off(HomePage());
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
   }
 }

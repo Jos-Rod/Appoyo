@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:appoyo_flutter/controllers/map_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:appoyo_flutter/widgets/map_widget.dart';
@@ -9,7 +10,7 @@ import 'package:get/get.dart';
 
 import 'package:latlong/latlong.dart';
 
-import 'package:geolocator/geolocator.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class RequestPage extends StatelessWidget {
 
@@ -151,13 +152,18 @@ class RequestPage extends StatelessWidget {
     print(pago);
     print("${position.latitude}, ${position.longitude}");
 
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    var user = auth.currentUser;
+
     await store.collection('requestappoyos').add({
       'titulo': titulo,
       'descripcion': descripcion,
       'pagoSugerido': pago,
       'fechaRequest': new DateTime.now().toString(),
       'lat': position.latitude, 
-      'lon': position.longitude
+      'lon': position.longitude,
+      'user': user.email
     })
     .then((value) {
       Get.back();
