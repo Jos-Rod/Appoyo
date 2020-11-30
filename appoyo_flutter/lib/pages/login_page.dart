@@ -31,13 +31,15 @@ class LoginPage extends StatelessWidget {
         body: Stack(
           children: <Widget>[
             background(),
-            Column(
-              children: <Widget>[
-                loginFields(),
-                Expanded(child: Container()),
-                loginButtons()
-              ],
+            SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  loginFields(),
+                  SizedBox(height: 200)
+                ],
+              ),
             ),
+            loginButtons()
           ],
         ),
       ),
@@ -88,35 +90,40 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget loginButtons(){
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        Expanded(
-          child: ButtonTheme(            
-            height: 80,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(35.0)),
+    return Column(
+      children: [
+        Spacer(),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Expanded(
+              child: ButtonTheme(            
+                height: 80,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(35.0)),
+                ),
+                child: RaisedButton(
+                  color: Colors.white,
+                  child: Text("Regsitrate", style: TextStyle(fontSize: 18)),
+                  onPressed: () => Get.to(SignUpPage()),
+                ),
+              ),
             ),
-            child: RaisedButton(
-              color: Colors.white,
-              child: Text("Regsitrate", style: TextStyle(fontSize: 18)),
-              onPressed: () => Get.to(SignUpPage()),
-            ),
-          ),
+            ButtonTheme(
+              height: 130.0,
+              minWidth: 130.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(35.0)),
+              ),
+              child: RaisedButton(
+                color: Color(0xFFD500).withAlpha(255),
+                child: Icon(Icons.arrow_forward, color: Colors.white, size: 60,),
+                onPressed: login,
+              ),
+            )
+          ],
         ),
-        ButtonTheme(
-          height: 130.0,
-          minWidth: 130.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(35.0)),
-          ),
-          child: RaisedButton(
-            color: Color(0xFFD500).withAlpha(255),
-            child: Icon(Icons.arrow_forward, color: Colors.white, size: 60,),
-            onPressed: login,
-          ),
-        )
-      ],
+      ]
     );
   }
 
